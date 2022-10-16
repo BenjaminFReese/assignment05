@@ -29,8 +29,21 @@ crimes <- crimes %>%
 
 ## 2. Filtering Data
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
+## Formatting date variable, filtering out NAs, and only including homicides
+crimes_lim <- crimes %>%
+  mutate(date = as_date(mdy_hms(date, tz= "America/Chicago"))) %>%
+  filter(primary_type == "HOMICIDE", 
+         !is.na(longitude), 
+         !is.na(latitude), 
+         !is.na(date),
+         date  >= today() - years(10)
+)
 
+## Testing
+table(year(crimes_lim$date))
+
+min(crimes_lim$date)
 ```
 
 
