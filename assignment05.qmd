@@ -4,3 +4,35 @@ author: "Benjamin Reese"
 format: html
 ---
 
+```{r, warning=FALSE, message=FALSE}
+## Packages
+library(tidyverse)
+library(stringr)
+library(readr)
+library(lubridate)
+```
+
+## 1. Data Cleaning and Loading
+
+```{r, warning=FALSE, message=FALSE}
+## Data Loading
+crimes <- read_csv("data/crimes-reduced.csv", col_types = cols(Latitude = col_character(), 
+        Longitude = col_character()))
+
+## Data Cleaning
+crimes <- crimes %>%
+  rename_all(funs(str_to_lower(.) %>% ## changing to lowercase
+                    str_replace_all(., '\\s','_') ## removing spaces
+                  )
+  )
+```
+
+## 2. Filtering Data
+
+```{r}
+
+```
+
+
+
+
