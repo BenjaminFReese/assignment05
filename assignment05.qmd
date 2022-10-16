@@ -10,6 +10,9 @@ library(tidyverse)
 library(stringr)
 library(readr)
 library(lubridate)
+library(sf)
+library(tigris)
+library(patchwork)
 ```
 
 ## 1. Data Cleaning and Loading
@@ -46,6 +49,16 @@ table(year(crimes_lim$date))
 min(crimes_lim$date)
 ```
 
+## 3. Convert Lon/Lat to Points Geometry
 
+```{r}
+## Converting lat and lon and coloring dots by arrest
+crimes_lim %>%
+  st_as_sf(coords = c("longitude", "latitude")) %>%
+  st_set_crs(value = 4326) %>%
+  ggplot() +
+  geom_sf(aes(color=arrest), alpha=.2) ## using alpha for transparency
+
+```
 
 
