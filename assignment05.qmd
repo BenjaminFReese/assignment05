@@ -61,4 +61,52 @@ crimes_lim %>%
 
 ```
 
+## 4. Load Census Tracts, Perform a Spatial Join, and Create Choropleth
+
+```{r, message=FALSE, warning=FALSE}
+## Reading in shapefile
+chi_shape <- st_read("data/Boundaries - Census Tracts - 2010/geo_export_098913a2-eb78-48e6-944e-bdaaf19b94f6.shp")
+
+## Selecting only geoid10 and geometry
+chi_shape <- chi_shape %>%
+  select(geoid10, geometry)
+
+## Setting crimes_lim coords
+crimes_lim <- crimes_lim %>%
+  st_as_sf(coords = c("longitude", "latitude")) %>%
+  st_set_crs(value = 4326)
+
+## Transforming crimes_lim
+crimes_lim <- st_transform(crimes_lim, crs = 4326)  
+
+## Setting chi_shape crs
+chi_shape <- st_transform(chi_shape, crs = 4326)
+
+## Joining the shape file to crime data
+chi_joins <- st_join(chi_shape, crimes_lim)
+
+## Creating merged_chi_agg
+merged_chi_agg <- chi_joins %>%
+  group_by(geoid10) %>%
+  summarize(homicides = sum(primary_type=="HOMICIDE"),
+            percent_arrests = mean(arrest))
+
+## Homicide Map
+chi_map1 <- merged_chi_agg %>%
+  ggplot(aes(fill=homicides)) +
+  geom_sf(color="white") +
+  scale_fill_gradient(guide="colorbar", na.value="white") + 
+  theme_void()
+
+## Arrests Percent Map
+chi_map2 <- merged_chi_agg %>%
+  ggplot(aes(fill=percent_arrests)) +
+  geom_sf(color="white") +
+  scale_fill_gradient(guide="colorbar", na.value="white") + 
+  theme_void()
+
+## Using patchwork to put the maps together
+chi_map1 + chi_map2
+```
+
 
