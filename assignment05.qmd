@@ -129,6 +129,7 @@ chi_stats <- get_acs(
   state = "Illinois",
   county = "Cook County",
   geometry = TRUE,
+  output = "wide",
   year = 2019,
   progress = FALSE
 )
