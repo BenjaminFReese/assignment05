@@ -2,6 +2,7 @@
 title: "Assignment 05"
 author: "Benjamin Reese"
 format: html
+self-contained: true
 ---
 
 ```{r, warning=FALSE, message=FALSE}
@@ -119,7 +120,11 @@ I already have my census API key installed from in class exercise.
 
 ```{r, warning=FALSE}
 library(tidycensus)
+
+## Showing my key
+Sys.getenv("CENSUS_API_KEY")
 ```
+
 
 ```{r}
 ## Loading in Variables with tidycensus
@@ -135,7 +140,6 @@ chi_stats <- get_acs(
 )
 
 ## URL method
-
 url <- 
   "https://api.census.gov/data/2019/acs/acs5?get=B19013_001E,B15003_022E,B17017_002E&for=tract:*&in=county:031&in=state:17&key=ef3e91b4b57955de6fbf3f957341452734d1b79a"
 
@@ -161,6 +165,11 @@ names(acs_data) <- acs_matrix[1,]
 ```
 
 
+### Now testing the equivalencies
+
+```{r}
+
+```
 
 
 
