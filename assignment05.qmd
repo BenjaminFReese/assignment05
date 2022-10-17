@@ -13,6 +13,9 @@ library(lubridate)
 library(sf)
 library(tigris)
 library(patchwork)
+library(httr)
+library(jsonlite)
+library(testthat)
 ```
 
 ## 1. Data Cleaning and Loading
@@ -129,6 +132,31 @@ chi_stats <- get_acs(
   year = 2019,
   progress = FALSE
 )
+
+## URL method
+
+url <- 
+  "https://api.census.gov/data/2019/acs/acs5?get=B19013_001E,B15003_022E,B17017_002E&for=tract:*&in=county:031&in=state:17&key=ef3e91b4b57955de6fbf3f957341452734d1b79a"
+
+## Using url to make request from API
+acs_json <- GET(url = url)
+
+## Checking status
+http_status(acs_json)
+
+## Making a text string
+acs_json <- content(acs_json, as = "text")
+
+## creating a character matrix
+acs_matrix <- fromJSON(acs_json)
+
+## turning into tibble
+acs_data <- as_tibble(acs_matrix[2:nrow(acs_matrix), ],
+                      .name_repair = "minimal")
+
+## adding names
+names(acs_data) <- acs_matrix[1,]
+
 ```
 
 
