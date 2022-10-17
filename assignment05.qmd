@@ -110,3 +110,28 @@ chi_map1 + chi_map2
 ```
 
 
+## 5. Using the Census API
+
+I already have my census API key installed from in class exercise.
+
+```{r, warning=FALSE}
+library(tidycensus)
+```
+
+```{r}
+## Loading in Variables with tidycensus
+chi_stats <- get_acs(
+  geography = "tract",
+  variables = c("B19013_001", "B15003_022", "B17017_002"),
+  state = "Illinois",
+  county = "Cook County",
+  geometry = TRUE,
+  year = 2019,
+  progress = FALSE
+)
+```
+
+
+
+
+
