@@ -119,6 +119,7 @@ chi_map1 + chi_map2
 I already have my census API key installed from in class exercise.
 
 ```{r, warning=FALSE}
+## tidycensus package loading
 library(tidycensus)
 
 ## Showing my key
@@ -152,14 +153,14 @@ http_status(acs_json)
 ## Making a text string
 acs_json <- content(acs_json, as = "text")
 
-## creating a character matrix
+## Creating a character matrix
 acs_matrix <- fromJSON(acs_json)
 
-## turning into tibble
+## Turning into tibble
 acs_data <- as_tibble(acs_matrix[2:nrow(acs_matrix), ],
                       .name_repair = "minimal")
 
-## adding names
+## Adding names
 names(acs_data) <- acs_matrix[1,]
 
 ```
@@ -168,6 +169,27 @@ names(acs_data) <- acs_matrix[1,]
 ### Now testing the equivalencies
 
 ```{r}
+## Formatting the tidycensus data for test
+chi_test <- as_tibble(chi_stats) %>%
+  select(B19013_001E, B15003_022E, B17017_002E) %>%
+  arrange(desc(B19013_001E))
+
+## Forming the url method data for test
+acs_data_test <- acs_data %>%
+  select(B19013_001E, B15003_022E, B17017_002E) %>%
+  mutate(B19013_001E = as.numeric(B19013_001E),
+         B15003_022E = as.numeric(B15003_022E),
+         B17017_002E = as.numeric(B17017_002E)) %>%
+  mutate_all(~replace(., . == -666666666, NA)) %>%
+  arrange(desc(B19013_001E))
+
+## Running the test with all_equal
+all_equal(acs_data_test, chi_test)
+
+## Using test_that
+test_that("if tibbles are equal", {
+           expect_equivalent(all_equal(chi_test, acs_data_test), TRUE)
+})
 
 ```
 
