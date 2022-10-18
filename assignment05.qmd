@@ -42,9 +42,9 @@ crimes_lim <- crimes %>%
   mutate(date = as_date(mdy_hms(date, tz= "America/Chicago"))) %>%
   filter(primary_type == "HOMICIDE", 
          !is.na(longitude), 
-         !is.na(latitude), 
+         !is.na(latitude),
          !is.na(date),
-         date  >= today() - years(10)
+         date  >= today() - years(10) ## Past 10 Years, should update
 )
 
 ## Testing
@@ -55,13 +55,13 @@ min(crimes_lim$date)
 
 ## 3. Convert Lon/Lat to Points Geometry
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 ## Converting lat and lon and coloring dots by arrest
 crimes_lim %>%
   st_as_sf(coords = c("longitude", "latitude")) %>%
   st_set_crs(value = 4326) %>%
   ggplot() +
-  geom_sf(aes(color=arrest), alpha=.2) ## using alpha for transparency
+  geom_sf(aes(color=arrest), alpha=.4) ## using alpha for transparency
 
 ```
 
@@ -117,9 +117,9 @@ The Central-Northwestern part of the city has the most homicides, as shown in th
 
 ## 5. Using the Census API
 
-I already have my census API key installed from in class exercise.
+I already have my census API key installed from in class exercise, so I will just display the key.
 
-```{r, warning=FALSE}
+```{r, warning=FALSE, message=FALSE}
 ## tidycensus package loading
 library(tidycensus)
 
@@ -128,7 +128,7 @@ Sys.getenv("CENSUS_API_KEY")
 ```
 
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 ## Loading in Variables with tidycensus
 chi_stats <- get_acs(
   geography = "tract",
@@ -169,7 +169,7 @@ names(acs_data) <- acs_matrix[1,]
 
 ### Now testing the equivalencies
 
-```{r}
+```{r, warning=FALSE, message=FALSE}
 ## Formatting the tidycensus data for test
 chi_test <- as_tibble(chi_stats) %>%
   select(B19013_001E, B15003_022E, B17017_002E) %>%
