@@ -47,6 +47,9 @@ crimes_lim <- crimes %>%
          !is.na(date),
          date  >= today() - years(10) ## Past 10 Years, should update
 )
+
+## Showing the lower_case and removed spaces
+crimes_lim
 ```
 
 ### Testing the Filtering
