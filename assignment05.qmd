@@ -5,6 +5,7 @@ format: html
 self-contained: true
 ---
 
+## Installing Packages Needed For Analysis
 ```{r, warning=FALSE, message=FALSE}
 ## Packages
 library(tidyverse)
@@ -46,14 +47,18 @@ crimes_lim <- crimes %>%
          !is.na(date),
          date  >= today() - years(10) ## Past 10 Years, should update
 )
+```
 
+### Testing the Filtering
+
+```{r, warning=FALSE, message=FALSE}
 ## Testing
 table(year(crimes_lim$date))
 
 min(crimes_lim$date)
 ```
 
-## 3. Convert Lon/Lat to Points Geometry
+## 3. Convert Lon/Lat to Points Geometry And Making Map
 
 ```{r, warning=FALSE, message=FALSE}
 ## Converting lat and lon and coloring dots by arrest
@@ -70,7 +75,10 @@ crimes_lim %>%
 ```{r, message=FALSE, warning=FALSE}
 ## Reading in shapefile
 chi_shape <- st_read("data/Boundaries - Census Tracts - 2010/geo_export_098913a2-eb78-48e6-944e-bdaaf19b94f6.shp")
+```
 
+
+```{r, message=FALSE, warning=FALSE}
 ## Selecting only geoid10 and geometry
 chi_shape <- chi_shape %>%
   select(geoid10, geometry)
@@ -112,12 +120,14 @@ chi_map2 <- merged_chi_agg %>%
 ## Using patchwork to put the maps together
 chi_map1 + chi_map2
 ```
+
 ### Short Paragraph About Maps
-The Central-Northwestern part of the city has the most homicides, as shown in the left map above. There are also some clusters of high homicide Census tracts around South and South Central Chicago. The other areas of the city do not have as many homicides. Homicides in Chicago seem to be quite geographically clustered and many Census tracts have few homicides. Perhaps surprisingly, the areas of Chicago with relatively fewer homicides have higher arrest rates, meaning homicides that occur in areas where homicides are more usual are more likely to end in an arrest than killings in the Census tracts that have high amounts of homicides. In sum, there are pockets of high homicide areas in Chicago where a smaller proportion of the homicides result in an arrest, while the low homicide areas are more likely to make an arrest when a homicide occurs.
+
+The Central-Northwestern part of the city has the most homicides, as shown in the left map above. There are also some clusters of high homicide Census tracts around South and South Central Chicago. The other areas of the city do not have as many homicides. Homicides in Chicago seem to be quite geographically clustered and many Census tracts have few homicides. Perhaps surprisingly, the areas of Chicago with relatively fewer homicides have higher arrest rates, meaning homicides that occur in areas where homicides are more unusual are more likely to end in an arrest than killings in the Census tracts that have high amounts of homicides. In sum, there are pockets of high homicide areas in Chicago where a smaller proportion of the homicides result in an arrest, while the low homicide areas are more likely to make an arrest in connection to the homicide.
 
 ## 5. Using the Census API
 
-I already have my census API key installed from in class exercise, so I will just display the key.
+I already have my census API key installed from an in class exercise, so I will just display the key.
 
 ```{r, warning=FALSE, message=FALSE}
 ## tidycensus package loading
