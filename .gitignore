@@ -1,3 +1,5 @@
 *.csv
 *.env
 data/
+.Rproj.user
+/data
