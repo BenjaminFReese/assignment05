@@ -2734,11 +2734,10 @@ $message
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>acs_matrix <span class="ot">&lt;-</span> <span class="fu">fromJSON</span>(acs_json)</span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="do">## Turning into tibble</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>acs_data <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(acs_matrix[<span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(acs_matrix), ],</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">.name_repair =</span> <span class="st">&quot;minimal&quot;</span>)</span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Adding names</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(acs_data) <span class="ot">&lt;-</span> acs_matrix[<span class="dv">1</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>acs_data <span class="ot">&lt;-</span> <span class="fu">as_tibble</span>(acs_matrix[<span class="dv">2</span><span class="sc">:</span><span class="fu">nrow</span>(acs_matrix), ], <span class="at">.name_repair =</span> <span class="st">&quot;minimal&quot;</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Adding names</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(acs_data) <span class="ot">&lt;-</span> acs_matrix[<span class="dv">1</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="now-testing-the-equivalencies" class="level3">
 <h3 class="anchored" data-anchor-id="now-testing-the-equivalencies">Now testing the equivalencies</h3>
@@ -2767,7 +2766,7 @@ $message
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">expect_equivalent</span>(<span class="fu">all_equal</span>(chi_test, acs_data_test), <span class="cn">TRUE</span>)</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Test passed 🥇</code></pre>
+<pre><code>Test passed 🥳</code></pre>
 </div>
 </div>
 </section>
