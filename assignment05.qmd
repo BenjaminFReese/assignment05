@@ -109,14 +109,14 @@ merged_chi_agg <- chi_joins %>%
 ## Homicide Map
 chi_map1 <- merged_chi_agg %>%
   ggplot(aes(fill=homicides)) +
-  geom_sf(color="white") +
+  geom_sf(color="white", lwd=.1) +
   scale_fill_gradient(guide="colorbar", na.value="white") + 
   theme_void()
 
 ## Arrests Percent Map
 chi_map2 <- merged_chi_agg %>%
   ggplot(aes(fill=percent_arrests)) +
-  geom_sf(color="white") +
+  geom_sf(color="white", lwd=.1) +
   scale_fill_gradient(guide="colorbar", na.value="white") + 
   theme_void()
 
